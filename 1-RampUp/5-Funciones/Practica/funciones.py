@@ -1,8 +1,10 @@
-import math
+import math # Funciones matemáticas
 
-
-# Faltan comentarios, no me ha dado tiempo a ponerlos
 def dia_semana(ndia:int)->str:
+    '''
+    Convierte números del 1 al 7 en nombres de los dias de la semana
+    '''
+    
     match ndia:
         case 1:
             return 'Lunes'
@@ -22,12 +24,27 @@ def dia_semana(ndia:int)->str:
             return 'Nono, solo tenemos 7 días de la semana (numérico del 1 al 7)'
 
 
+
 def piramide(n):
+    '''
+    Crea una pirámide invertida de números desde el número de entrada
+    '''
+    
     for inicio in range(n, 0, -1):
         print(*range(inicio, 0, -1))  
 
 
+
 def comparar(a, b):
+    '''
+    Se comparan los números de entrada.
+    Posibles salidas:
+        --> a es mayor que b
+        --> a es menor que b
+        --> a y b son iguales
+    '''
+    
+    
     if a < b:
         return f'{a} es menor que {b}'
     if a > b:
@@ -35,18 +52,34 @@ def comparar(a, b):
     return 'Son iguales'
     
 
-def contador_letras(texto, letra):
-        return texto.lower().replace('á','a').replace('é','e').replace('í','i').replace('ó','o').replace('ú','u').count(letra.lower())
 
 
-def cont_dic(texto:str)->dict:
+def contador_letras(texto, letra)->int:
+    '''
+    Se cuentan las veces que aparece la letra en el texto
+    '''
+    
+    return texto.lower().replace('á','a').replace('é','e').replace('í','i').replace('ó','o').replace('ú','u').count(letra.lower())
+
+
+
+def contador_texto(texto:str)->dict:
+    '''
+    Se crea un diccionario con el conteo de todas las letras del texto de entrada
+    '''
+    
     dic_letras = {}
     for elem in texto:
         dic_letras[elem] = texto.count(elem)
     return dic_letras
 
 
+
 def add_rmv_list(lista, operacion, item = None):
+    '''
+    Se añaden o eliminan elementos en una lista
+    '''
+    
     if item == None:
         print('No sé qué elemento debo añadir o eliminar')
         return
@@ -62,13 +95,25 @@ def add_rmv_list(lista, operacion, item = None):
             return
         
 
+
 def frase(*args):
+    '''
+    Recibe un número arbitrario de palabras, 
+    y devuelve una frase completa, separando 
+    las palabras con espacios
+    '''
+    
     for elem in args:
         frase = ' '.join(elem)
     return frase
 
 
+
 def fibonacci(n):
+    '''
+    Se obtiene el número en la posición n de la serie de Fibonacci
+    '''
+    
     if n == 1:
         return 1
     elif n == 2:
@@ -78,11 +123,27 @@ def fibonacci(n):
 
 
 
-def a_cuad(lado):
+def a_cuad(lado:float)->float:
+    '''
+    Se calcula el área de un cuadrado
+    '''
+    
     return 4 * lado
 
-def a_tri(base, altura):
+
+
+def a_tri(base:float, altura:float)->float:
+    '''
+    Se calcula el área de un triángulo
+    '''
+    
     return base * altura / 2
 
-def a_circ(radio):
+
+
+def a_circ(radio:float)->float:
+    '''
+    Se calcula el área de un círculo
+    '''
+
     return math.pi * radio**2
