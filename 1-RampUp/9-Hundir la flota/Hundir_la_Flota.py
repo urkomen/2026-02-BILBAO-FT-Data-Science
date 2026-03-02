@@ -21,6 +21,9 @@ tablero = Tablero.crear_tablero()
 
 Tablero.pintar_tablero(tablero)
 
+
+
+
 '''
 CONFIGURACIÓN
     - Se colocan los barcos del usuario (modo manual)
