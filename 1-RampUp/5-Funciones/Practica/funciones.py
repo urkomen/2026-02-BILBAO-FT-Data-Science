@@ -68,9 +68,10 @@ def contador_texto(texto:str)->dict:
     Se crea un diccionario con el conteo de todas las letras del texto de entrada
     '''
     
+    texto2 = texto.lower().replace('á','a').replace('é','e').replace('í','i').replace('ó','o').replace('ú','u')
     dic_letras = {}
-    for elem in texto:
-        dic_letras[elem] = texto.count(elem)
+    for elem in texto2:
+        dic_letras[elem] = texto2.count(elem)
     return dic_letras
 
 
@@ -88,8 +89,11 @@ def add_rmv_list(lista, operacion, item = None):
             lista.append(item)
             return lista
         elif operacion.lower() == 'remove':
-            lista.remove(item)
-            return lista
+            try:
+                lista.remove(item)
+                return lista
+            except:
+                pass
         else:
             print('No reconozco el comando')
             return
@@ -103,9 +107,10 @@ def frase(*args):
     las palabras con espacios
     '''
     
-    for elem in args:
-        frase = ' '.join(elem)
-    return frase
+    # for elem in args:
+    #     frase = ' '.join(elem)
+    # return frase
+    return ' '.join(args) # join por dentro ya itera sobre el iterable de entrada
 
 
 
@@ -128,7 +133,7 @@ def a_cuad(lado:float)->float:
     Se calcula el área de un cuadrado
     '''
     
-    return 4 * lado
+    return lado**2
 
 
 

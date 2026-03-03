@@ -13,7 +13,7 @@ tablero = [
 
 def crear_tablero(tamaño=10): 
     '''
-    Se crea tablero de juego
+    Crea tablero de juego
     '~' representa agua
     Tamaño por defecto 10
     '''
@@ -21,6 +21,9 @@ def crear_tablero(tamaño=10):
 
 
 def pintar_tablero(tablero):
+    '''
+    Muestra el tablero en pantalla
+    '''
     for fila in tablero:
         print(' '.join(fila))
 
