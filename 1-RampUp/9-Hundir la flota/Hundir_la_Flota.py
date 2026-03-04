@@ -1,4 +1,6 @@
 import Tablero
+# Tablero.path.append("./Proyecto")
+
 
 ''' 
 INICIO DE JUEGO
@@ -33,7 +35,9 @@ CONFIGURACIÓN
       1 barco de 4 casillas
 '''
 
-
+coords = (('A','1'))
+indice = [Tablero.coords2index(coord) for coord in coords]
+print(indice)
 
 
 '''
