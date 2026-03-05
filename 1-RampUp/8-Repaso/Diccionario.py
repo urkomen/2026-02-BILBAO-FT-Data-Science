@@ -1,4 +1,6 @@
-
+# Variables iniciales
+vidas = 0 # Vidas de usuario (al llegar a 6 muere)
+lista_letras = [] # Lista de letras usadas
 
 titulo = [
 " ███████╗ █████╗      ██████╗  █████╗ ███╗   ███╗███████╗███████╗",

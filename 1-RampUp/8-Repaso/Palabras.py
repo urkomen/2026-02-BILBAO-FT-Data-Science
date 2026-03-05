@@ -65,13 +65,11 @@ def letter_comprobar(letra:str, word:str, word_result:str, lista_letras:list, vi
             return word_result, lista_letras, vidas
         
     else:    
-        while letra in list_word:
-            for i, let in enumerate(list_word):
-                if let == letra:
-                    list_wordRes[i] = letra
-                    list_word[i] = '_'
-            word_result = ''.join(list_wordRes)
-            word_mostrar(word_result)
+        for i, let in enumerate(list_word):
+            if let == letra:
+                list_wordRes[i] = letra
+        word_result = ''.join(list_wordRes)
+        word_mostrar(word_result)
         
     print('Letras usadas: ', lista_letras)
     # Palabra oculta con las letras descubiertas, lista de letras usadas, vidas del usuario
