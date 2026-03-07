@@ -1,4 +1,4 @@
-import Tablero
+
 
 def coords2index(coord: str):
     """
@@ -14,4 +14,4 @@ def coords2index(coord: str):
     fila_idx = ord(fila) - ord('a') # Convertimos a unicode y restamos con nuestro valor '0'
     col_idx = int(col) - 1
 
-    return [fila_idx, col_idx]
+    return (fila_idx, col_idx)
