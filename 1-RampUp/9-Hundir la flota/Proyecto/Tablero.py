@@ -1,25 +1,15 @@
 import numpy as np
 import os
 
-tablero_ejemplo = [['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
-           ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
-           ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
-           ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
-           ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
-           ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
-           ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
-           ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
-           ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
-           ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~']]
 # Constantes
-AGUA = "🟦"
+AGUA = '🟦'
 BARCO1 = '⬜'
 BARCO2 = '🟩'
 BARCO3 = '🟫'
 BARCO4 = '🟪'
 DISP_AGUA = '⬛'
-TOCADO   = '🟨'
-HUNDIDO  = '🟥'
+TOCADO   = '💥'
+HUNDIDO  = '☠️'
 
 def crear_tablero(n=10): 
     '''
@@ -35,11 +25,11 @@ def mostrar_tablero(tablero:tuple[int, int]):
     Muestra el tablero en pantalla
     '''
     for fila in tablero:
-        print(" ".join(str(elem) for elem in fila))
+        print(' '.join(str(elem) for elem in fila))
 
 
-def es_agua(tablero, fila, col):
-    return tablero[fila][col] == AGUA
+def es_agua(tablero, fil, col):
+    return tablero[fil][col] == AGUA
 
 
 def pintar_casilla(tablero:tuple[int, int], casilla:tuple, state:str):
@@ -50,8 +40,8 @@ def pintar_casilla(tablero:tuple[int, int], casilla:tuple, state:str):
     BARCO(3) --> '🟫'
     BARCO(4) --> '🟪'
     AGUA     --> '⬛'
-    TOCADO   --> '🟨'
-    HUNDIDO  --> '🟥'
+    TOCADO   --> '💥'
+    HUNDIDO  --> '☠️'
     '''
     
     n = casilla[0]

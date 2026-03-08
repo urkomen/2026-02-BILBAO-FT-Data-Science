@@ -1,6 +1,7 @@
 import Tablero as tb
 import Barcos as bar
 import Disparos as disp
+import time
 
 def inicio_hundir(n = 10):
     ''' 
@@ -23,7 +24,9 @@ def inicio_hundir(n = 10):
     tablero = tb.crear_tablero(n)
 
     tb.mostrar_tablero(tablero)
+    
     return tablero
+
 
 
 def configuracion_hundir(tablero:tuple[int, int]):
@@ -36,7 +39,7 @@ def configuracion_hundir(tablero:tuple[int, int]):
           1 barco de 4 casillas
     '''
     bar.colocar_barcos(tablero)
-    # tablero = bar.colocar_barcos(tablero)
+
 
 
 def disparos_hundir(tablero:tuple[int, int]):
@@ -46,8 +49,14 @@ def disparos_hundir(tablero:tuple[int, int]):
         - Comprobación de objetivo
         - Marcar casilla (tocado/agua)
     '''
-    coord_disp = disp.recibir_disparos()
-    disp.comprobar_objetivo(coord_disp,tablero)
+    
+    while True:
+        coord_disp = disp.recibir_disparos(tablero)
+        if not disp.comprobar_objetivo(coord_disp,tablero):
+            break
+    
+    
+    
     pass
     
     

@@ -1,5 +1,30 @@
 import Metodos_varios as mv
 import Tablero as tb
+import random
+
+# Lista general de barcos con sus posiciones y si están hundidos
+barcos = [
+    {'tipo': 1, 'coords': [], 'hundido': False},
+    {'tipo': 1, 'coords': [], 'hundido': False},
+    {'tipo': 1, 'coords': [], 'hundido': False},
+    {'tipo': 1, 'coords': [], 'hundido': False},
+    {'tipo': 2, 'coords': [], 'hundido': False},
+    {'tipo': 2, 'coords': [], 'hundido': False},
+    {'tipo': 2, 'coords': [], 'hundido': False},
+    {'tipo': 3, 'coords': [], 'hundido': False},
+    {'tipo': 3, 'coords': [], 'hundido': False},
+    {'tipo': 4, 'coords': [], 'hundido': False}
+]
+
+
+def guardar_barco(tipo: int, coords: list[tuple[int, int]], ind:int):
+    '''
+    Añadir barco a la lista general de barcos
+    '''
+    
+    barcos[ind]["coords"] = coords
+
+
 
 def colocar_barcos(tablero:tuple[int, int], pos_aleatorio = False):
     '''
@@ -9,30 +34,36 @@ def colocar_barcos(tablero:tuple[int, int], pos_aleatorio = False):
         False --> los barcos se colocan de forma manual
         True --> los barcos se colocan de forma aleatoria
     '''
-    lista_barcos = [(1, 4), (2, 3), (3, 2), (4, 1)]
+    tipos_barcos = [(1, 4), (2, 3), (3, 2), (4, 1)]
+    ind = 0
     
     if not pos_aleatorio:
-        for tipo, cantidad in lista_barcos:
             print(f"\nColoca {cantidad} barco(s) de tamaño {tipo}:")
 
             for _ in range(cantidad):
                 while True:
                     entrada = input(f"Introduce {tipo} coordenadas separadas por espacio (ej: A1 A2 A3): ")
                     coords = entrada.split()
-                    # coords = ['A1','B1']
                     casillas = [mv.coords2index(coord) for coord in coords]
                     
-
                     if barco_valido(tablero, tipo, casillas):
                         pintar_barco(tipo, casillas, tablero)
-                        tb.limpiar()
+                        guardar_barco(tipo, casillas, ind)
+                        ind += 1 # Incrementamos índice para el próximo barco
+                        print(barcos)
+                        
+                        # tb.limpiar()
                         print("Barco colocado.\n")
                         tb.mostrar_tablero(tablero)
+                        
                         break
                     else:
                         print("Coordenadas inválidas. Inténtalo de nuevo.\n")
-    
-    print(tablero)
+    else:
+        for tipo, cantidad in tipos_barcos:
+            for _ in range(cantidad):
+                generar_barco_aleatorio(tipo, tablero)
+                        
 
 
 def pintar_barco(tipo:int, casillas:list[tuple[int, int]], tablero:tuple[int, int]):
@@ -56,6 +87,7 @@ def pintar_barco(tipo:int, casillas:list[tuple[int, int]], tablero:tuple[int, in
                     tb.pintar_casilla(tablero, tile, 'BARCO4')
 
 
+
 def barco_valido(tablero:tuple[int, int], tipo: int, casillas:list[tuple[int, int]]):
     '''
     Comprueba si las coordenadas de entrada forman un barco 
@@ -69,16 +101,21 @@ def barco_valido(tablero:tuple[int, int], tipo: int, casillas:list[tuple[int, in
     # Índices fuera de rango (tablero 10x10)
     for casilla in casillas:
         for ind in casilla:
-            if ind > 9:
+            if ind < 0 or ind > 9:
+                print('Coordenadas fuera del tablero.')
                 return False
     
     # Casilla está libre
     for casilla in casillas:
+        print(tablero)
+        print(casilla[0], casilla[1])
         if not tb.es_agua(tablero, casilla[0], casilla[1]):
+            print('La casilla está ocupada.')
             return False
         
     # Tipo de barco = número de casillas
     if len(casillas) != tipo:
+        print('Cantidad de coordenadas no corresponde al tipo de barco.')
         return False
 
     # Caso barco simple (1 casilla)
@@ -93,8 +130,9 @@ def barco_valido(tablero:tuple[int, int], tipo: int, casillas:list[tuple[int, in
     
     # Debe estar en línea, no doblarse (por ejemplo forma 'L')
     hbarco = len(set(filas)) == 1 #alineado horizontal
-    vbarco   = len(set(cols)) == 1# alineado vertical
+    vbarco   = len(set(cols)) == 1 # alineado vertical
     if not (hbarco or vbarco):
+        print('Coordenadas no alineadas')
         return False
 
     # Casillas consecutivas horizontalmente y verticalmente
@@ -104,6 +142,52 @@ def barco_valido(tablero:tuple[int, int], tipo: int, casillas:list[tuple[int, in
     if vbarco:
         return filas == list(range(filas[0], filas[0] + tipo))
 
+    print('Coordenadas no consecutivas.')
     return False
 
 
+
+def barco_hundido(tablero:tuple[int, int], barco):
+    '''
+    barco = {"tipo": n, "coords": ["A1","A2",...]}
+    Devuelve True si se ha impactado en todas las casillas del barco
+    '''
+    
+    for coord in barco["coords"]:
+        fil, col = mv.coords2index(coord)
+        if tablero[fil][col] != mv.IMPACTO:
+            return False
+    return True
+
+
+# EXTRA
+def generar_barco_aleatorio(tipo:int, tablero:tuple[int, int]):
+    '''
+    Genera aleatoriamente coordenadas de 
+    un barco del tipo indicado
+    '''
+    
+    while True:
+        fila = random.randint(0, 9)
+        col = random.randint(0, 9)
+        orientacion = random.choice(["H", "V"])
+
+        coords = []
+
+        if orientacion == "H":
+            if col + tipo > 10:
+                continue
+            for c in range(col, col + tipo):
+                coords.append(f"{chr(fila + ord('A'))}{c+1}")
+
+        else:  # Vertical
+            if fila + tipo > 10:
+                continue
+            for f in range(fila, fila + tipo):
+                coords.append(f"{chr(f + ord('A'))}{col+1}")
+
+        # Validar que no se solapa con otros barcos
+        if not tb.es_agua(tablero, coords[0], coords[1]):
+            continue
+
+        return coords
