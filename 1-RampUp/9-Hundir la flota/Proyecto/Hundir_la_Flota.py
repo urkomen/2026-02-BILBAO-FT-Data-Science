@@ -8,7 +8,9 @@ def main():
     
     fdj.configuracion_hundir(tablero)
     
-    # fdj.disparos_hundir()
+    print(tablero)
+    
+    fdj.disparos_hundir(tablero)
     
     
     

@@ -1,5 +1,6 @@
-import Tablero
-import Barcos
+import Tablero as tb
+import Barcos as bar
+import Disparos as disp
 
 def inicio_hundir(n = 10):
     ''' 
@@ -18,13 +19,14 @@ def inicio_hundir(n = 10):
     #     ~  ~  ~  ~  ~  ~  ~  ~  ~  ~
     #     ~  ~  ~  ~  ~  ~  ~  ~  ~  ~
     #     ~  ~  ~  ~  ~  ~  ~  ~  ~  ~
-    tablero = Tablero.crear_tablero(n)
+    tb.limpiar()
+    tablero = tb.crear_tablero(n)
 
-    Tablero.mostrar_tablero(tablero)
+    tb.mostrar_tablero(tablero)
     return tablero
 
 
-def configuracion_hundir(tablero):
+def configuracion_hundir(tablero:tuple[int, int]):
     '''
     CONFIGURACIÓN
         - Se colocan los barcos del usuario (modo manual)
@@ -33,21 +35,20 @@ def configuracion_hundir(tablero):
           2 barcos de 3 casillas
           1 barco de 4 casillas
     '''
-    
-    
-    Barcos.colocar_barcos(tablero)
-    Tablero.mostrar_tablero(tablero)
+    bar.colocar_barcos(tablero)
+    # tablero = bar.colocar_barcos(tablero)
 
-def disparos_hundir():
+
+def disparos_hundir(tablero:tuple[int, int]):
     '''
     DISPAROS
         - Recibir coordenadas
         - Comprobación de objetivo
         - Marcar casilla (tocado/agua)
     '''
-    
+    coord_disp = disp.recibir_disparos()
+    disp.comprobar_objetivo(coord_disp,tablero)
     pass
-    
     
     
 def barcos_hundidos():
@@ -59,6 +60,7 @@ def barcos_hundidos():
     '''
     
     pass
+
 
 def fin_hundir():
     pass

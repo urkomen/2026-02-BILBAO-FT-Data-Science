@@ -1,9 +1,9 @@
-import Metodos_varios
-import Tablero
+import Metodos_varios as mv
+import Tablero as tb
 
-def colocar_barcos(tablero, pos_aleatorio = False):
+def colocar_barcos(tablero:tuple[int, int], pos_aleatorio = False):
     '''
-    Se colocan los barcos de inicio
+    Coloca los barcos de inicio en el tablero
     
     pos_aleatorio: 
         False --> los barcos se colocan de forma manual
@@ -20,38 +20,43 @@ def colocar_barcos(tablero, pos_aleatorio = False):
                     entrada = input(f"Introduce {tipo} coordenadas separadas por espacio (ej: A1 A2 A3): ")
                     coords = entrada.split()
                     # coords = ['A1','B1']
-                    casillas = [Metodos_varios.coords2index(coord) for coord in coords]
+                    casillas = [mv.coords2index(coord) for coord in coords]
                     
 
-                    if barco_valido(tipo, casillas):
+                    if barco_valido(tablero, tipo, casillas):
                         pintar_barco(tipo, casillas, tablero)
+                        tb.limpiar()
                         print("Barco colocado.\n")
-                        Tablero.mostrar_tablero(tablero)
+                        tb.mostrar_tablero(tablero)
                         break
                     else:
                         print("Coordenadas inválidas. Inténtalo de nuevo.\n")
+    
+    print(tablero)
 
 
 def pintar_barco(tipo:int, casillas:list[tuple[int, int]], tablero:tuple[int, int]):
-    # Convertir coordenadas en índices de la matriz tablero
+    '''
+    Cambia el estado de las casillas del tablero para convertirlas en barco
+    '''
     
     for tile in casillas:
     
         match tipo:
             case 1:
-                Tablero.pintar_casilla(tablero, tile, 'BARCO1')
+                tb.pintar_casilla(tablero, tile, 'BARCO1')
                 
             case 2:
-                    Tablero.pintar_casilla(tablero, tile, 'BARCO2')
+                    tb.pintar_casilla(tablero, tile, 'BARCO2')
                 
             case 3:
-                    Tablero.pintar_casilla(tablero, tile, 'BARCO3')
+                    tb.pintar_casilla(tablero, tile, 'BARCO3')
                 
             case 4:
-                    Tablero.pintar_casilla(tablero, tile, 'BARCO4')
+                    tb.pintar_casilla(tablero, tile, 'BARCO4')
 
 
-def barco_valido(tipo: int, casillas:list[tuple[int, int]]):
+def barco_valido(tablero:tuple[int, int], tipo: int, casillas:list[tuple[int, int]]):
     '''
     Comprueba si las coordenadas de entrada forman un barco 
     válido del tamaño 'tipo' (1, 2, 3, 4).
@@ -61,16 +66,18 @@ def barco_valido(tipo: int, casillas:list[tuple[int, int]]):
     # Ordenar coordenadas para evitar problemas ((1,3), (1,1), (1,2) → (1,1), (1,2), (1,3))
     casillas.sort()
     
-    # Comprobar que no hay índices fuera de rango (tablero 10x10)
+    # Índices fuera de rango (tablero 10x10)
     for casilla in casillas:
         for ind in casilla:
             if ind > 9:
                 return False
     
-    # Comprobar que esa casilla está libre
-    
-    
-    # Comprobar número de casillas con el tipo de barco
+    # Casilla está libre
+    for casilla in casillas:
+        if not tb.es_agua(tablero, casilla[0], casilla[1]):
+            return False
+        
+    # Tipo de barco = número de casillas
     if len(casillas) != tipo:
         return False
 
@@ -84,14 +91,13 @@ def barco_valido(tipo: int, casillas:list[tuple[int, int]]):
     filas = [i[0] for i in casillas]
     cols  = [i[1] for i in casillas]
     
-    # Comprobar alineación. Debe estar en línea, no doblarse (por ejemplo forma 'L')
+    # Debe estar en línea, no doblarse (por ejemplo forma 'L')
     hbarco = len(set(filas)) == 1 #alineado horizontal
     vbarco   = len(set(cols)) == 1# alineado vertical
-
     if not (hbarco or vbarco):
         return False
 
-    # Casillas consecutivas horizontalmente/verticalmente
+    # Casillas consecutivas horizontalmente y verticalmente
     if hbarco:
         return cols == list(range(cols[0], cols[0] + tipo))
 
