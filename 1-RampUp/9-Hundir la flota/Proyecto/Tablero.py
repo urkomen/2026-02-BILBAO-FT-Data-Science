@@ -36,13 +36,13 @@ def es_agua(tablero, fil, col):
 def pintar_casilla(tablero:tuple[int, int], casilla:tuple, state:str):
     '''
     Cambiamos el estado de la casilla del tablero: 
-    BARCO(1) --> '⬜'
-    BARCO(2) --> '🟩'
-    BARCO(3) --> '🟫'
-    BARCO(4) --> '🟪'
-    AGUA     --> '⬛'
-    TOCADO   --> '💥'
-    HUNDIDO  --> '☠️'
+    BARCO(1)  --> '⬜'
+    BARCO(2)  --> '🟩'
+    BARCO(3)  --> '🟫'
+    BARCO(4)  --> '🟪'
+    DISP_AGUA --> '⬛'
+    TOCADO    --> '💥'
+    HUNDIDO   --> '☠️'
     '''
     
     n = casilla[0]
