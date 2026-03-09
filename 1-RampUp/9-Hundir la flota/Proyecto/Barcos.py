@@ -1,6 +1,7 @@
 import Metodos_varios as mv
 import Tablero as tb
 import random
+import time
 
 # Lista general de barcos con sus posiciones y si están hundidos
 barcos = [
@@ -34,10 +35,12 @@ def colocar_barcos(tablero:tuple[int, int], pos_aleatorio = False):
         False --> los barcos se colocan de forma manual
         True --> los barcos se colocan de forma aleatoria
     '''
-    tipos_barcos = [(1, 4), (2, 3), (3, 2), (4, 1)]
+    
+    tipos_barcos = [(1, 4)]#, (2, 3), (3, 2), (4, 1)]
     ind = 0
     
-    if not pos_aleatorio:
+    for tipo, cantidad in tipos_barcos:
+        if not pos_aleatorio:
             print(f"\nColoca {cantidad} barco(s) de tamaño {tipo}:")
 
             for _ in range(cantidad):
@@ -50,19 +53,17 @@ def colocar_barcos(tablero:tuple[int, int], pos_aleatorio = False):
                         pintar_barco(tipo, casillas, tablero)
                         guardar_barco(tipo, casillas, ind)
                         ind += 1 # Incrementamos índice para el próximo barco
-                        print(barcos)
-                        
-                        # tb.limpiar()
-                        print("Barco colocado.\n")
+                        print('Aquí')
                         tb.mostrar_tablero(tablero)
+                        print("Barco colocado.\n")
                         
                         break
                     else:
                         print("Coordenadas inválidas. Inténtalo de nuevo.\n")
-    else:
-        for tipo, cantidad in tipos_barcos:
+        else:
             for _ in range(cantidad):
                 generar_barco_aleatorio(tipo, tablero)
+    time.sleep(1)
                         
 
 

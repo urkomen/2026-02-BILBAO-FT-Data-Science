@@ -24,6 +24,7 @@ def mostrar_tablero(tablero:tuple[int, int]):
     '''
     Muestra el tablero en pantalla
     '''
+    limpiar()
     for fila in tablero:
         print(' '.join(str(elem) for elem in fila))
 

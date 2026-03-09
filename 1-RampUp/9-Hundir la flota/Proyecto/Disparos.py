@@ -13,9 +13,9 @@ def recibir_disparos(tablero:tuple[int, int]):
         casilla = mv.coords2index(coords)
         
         if comprobar_coords(casilla):
-            tb.limpiar()
             print("Disparo realizado.\n")
-            break
+            comprobar_objetivo(tablero, casilla)
+            # break
         else:
             print("Coordenadas inválidas. Inténtalo de nuevo.\n")
     
@@ -29,18 +29,22 @@ def comprobar_objetivo(tablero:tuple[int, int],coords:tuple[int, int]):
     '''
     
     if not tb.es_agua(tablero, coords[0], coords[1]):
-        print("Tocado!")
         tb.pintar_casilla(tablero, coords, 'TOCADO')
+        print("Tocado!")
+        tb.mostrar_tablero(tablero)
         time.sleep(1)
         # Comprobar si el barco se ha hundido
-        if bar.barco_hundido(tablero, coords):
-            print("Barco hundido!")
-            tb.pintar_casilla(tablero, coords, 'HUNDIDO')
+        # if bar.barco_hundido(tablero, coords):
+        #     print("Barco hundido!")
+        #     tb.pintar_casilla(tablero, coords, 'HUNDIDO')
         
         return True # Impacto en un barco
-    else:
+    elif tb.es_agua(tablero, coords[0], coords[1]):
+        tb.pintar_casilla(tablero, coords, 'DISP_AGUA')
         print("Agua!")
-        tb.pintar_casilla(tablero, coords, 'AGUA')
+        tb.mostrar_tablero(tablero)
+        time.sleep(1)
+        
         return False # Disparo al agua
 
 

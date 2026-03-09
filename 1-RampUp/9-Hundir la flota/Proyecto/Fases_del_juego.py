@@ -53,7 +53,8 @@ def disparos_hundir(tablero:tuple[int, int]):
     while True:
         coord_disp = disp.recibir_disparos(tablero)
         if not disp.comprobar_objetivo(coord_disp,tablero):
-            break
+            print('Cambio turno')
+            # break
     
     
     
