@@ -11,6 +11,8 @@ DISP_AGUA = '⬛'
 TOCADO   = '💥'
 HUNDIDO  = '☠️'
 
+coordenadas = ['A','B','C','D','E','F','G','H','I','J']
+
 def crear_tablero(n=10): 
     '''
     Crea tablero de juego '~' representa agua
@@ -24,13 +26,24 @@ def mostrar_tablero(tablero:tuple[int, int]):
     '''
     Muestra el tablero en pantalla
     '''
-    limpiar()
-    for fila in tablero:
-        print(' '.join(str(elem) for elem in fila))
+    
+    # Encabezado numérico
+    numeros = "  " + " ".join(f"{i:2}" for i in range(1, 11))
+    print(numeros)
+
+    # Filas con letras
+    for i, fila in enumerate(tablero):
+        letra = chr(ord('A') + i)
+        contenido = " ".join(fila)
+        print(f"{letra} {contenido}")
 
 
-def es_agua(tablero, fil, col):
+def es_agua(tablero:tuple[int, int], fil:int, col:int):
     return tablero[fil][col] == AGUA
+
+def ya_disparado(tablero, fil, col):
+    casilla_disparada = tablero[fil][col] == TOCADO or tablero[fil][col] == DISP_AGUA or tablero[fil][col] == HUNDIDO
+    return casilla_disparada
 
 
 def pintar_casilla(tablero:tuple[int, int], casilla:tuple, state:str):
