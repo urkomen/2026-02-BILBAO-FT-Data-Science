@@ -23,7 +23,7 @@ def guardar_barco(tipo: int, coords: list[tuple[int, int]], ind:int):
     Añadir barco a la lista general de barcos
     '''
     
-    barcos[ind]["coords"] = coords
+    barcos[ind]["coords"] = coords 
 
 
 
