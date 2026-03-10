@@ -91,18 +91,29 @@ def turnos_hundir(tablero_usu:tuple[int, int], tablero_PC:tuple[int, int], table
     fin = False
     # turno = 1
     
-    while turno < 20:
-        if turno%2 == 0: # Turno usuario
+    while fin:
+        turno += 1 # Siguiente turno
+        if turno%2 == 0: # Turnos pares son del usuario
             tb.mostrar_tableros2(tablero_PCoculto, tablero_usu)
             fin = disp.disparos_usu(tablero_PC, tablero_PCoculto, tablero_usu, barcos_PC)
-        else: # Turno PC
+        else: # Turnos impares son de la máquina
             print('Turno PC')
             fin = disp.disparos_PC(tablero_PCoculto, tablero_usu, barcos_usu)
 
         tb.mostrar_tableros2(tablero_PCoculto, tablero_usu)
         print('Turno finalizado.')
+    
+    
+    if turno%2 == 0: 
+        # El juego ha finalizado en el turno del usuario
+        # Gana usuario
+        return 'USUARIO'
+    else:
+        # El juego ha finalizado en el turno de la máquina
+        # Gana máquina
+        return 'MAQUINA'
         
-        turno += 1 # Siguiente turno
+        
         
     
     

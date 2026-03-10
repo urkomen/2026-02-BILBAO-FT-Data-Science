@@ -36,7 +36,7 @@ def colocar_barcos(tablero:tuple[int, int], barcos:list, manual:bool):
         True --> los barcos se colocan de forma aleatoria
     '''
     
-    tipos_barcos = [(1, 4), (2, 3), (3, 2), (4, 1)]
+    tipos_barcos = [(1, 4)]#, (2, 3), (3, 2), (4, 1)]
     ind = 0
     
     if manual:
@@ -165,6 +165,16 @@ def barco_hundido(tablero:tuple[int, int], barco):
             return False
     return True
 
+
+def quedan_barcos(barcos):
+    '''
+    Comprobamos si quedan barcos a flote
+    '''
+    
+    for barco in barcos:
+        if barco['hundido'] == False:
+            return True
+    return False
 
 # EXTRA
 def generar_barco_aleatorio(tipo:int, tablero:tuple[int, int]):
