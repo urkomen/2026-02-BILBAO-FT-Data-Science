@@ -40,7 +40,6 @@ def colocar_barcos(tablero:tuple[int, int], barcos:list, manual:bool):
     ind = 0
     
     if manual:
-        print('Aquí')
         for tipo, cantidad in tipos_barcos:
             print(f"\nColoca {cantidad} barco(s) de tamaño {tipo}:")
 
@@ -62,7 +61,6 @@ def colocar_barcos(tablero:tuple[int, int], barcos:list, manual:bool):
                     else:
                         print("Coordenadas inválidas. Inténtalo de nuevo.\n")
     else:
-        print('else')
         for tipo, cantidad in tipos_barcos:
             for _ in range(cantidad):
                 casillas = generar_barco_aleatorio(tipo, tablero)
@@ -155,13 +153,15 @@ def barco_valido(tablero:tuple[int, int], tipo: int, casillas:list[tuple[int, in
 
 def barco_hundido(tablero:tuple[int, int], barco):
     '''
-    barco = {"tipo": n, "coords": ["A1","A2",...]}
+    barco = {'tipo': n, 'coords': ['A1','A2',...]}
     Devuelve True si se ha impactado en todas las casillas del barco
     '''
-
-    for coord in barco["coords"]:
-        fil, col = mv.coords2index(coord)
-        if tablero[fil][col] != mv.IMPACTO:
+            
+    for coord in barco['coords']:
+        fil = coord[0]
+        col = coord[1]
+        
+        if tablero[fil][col] != tb.TOCADO:
             return False
     return True
 
@@ -196,9 +196,11 @@ def generar_barco_aleatorio(tipo:int, tablero:tuple[int, int]):
                 coords.append((f, col))
 
         # Validar que no se solapa con otros barcos
+        solapado = False
         for c in coords:
             if not tb.es_agua(tablero, c[0], c[1]):
-                print('Hay algo')
-                continue
+                solapado = True
+                break
 
-        return coords
+        if not solapado:
+            return coords

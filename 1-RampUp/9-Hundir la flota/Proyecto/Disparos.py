@@ -2,13 +2,14 @@ import Metodos_varios as mv
 import Tablero as tb
 import Barcos as bar
 import Disparos as disp
+import Fases_del_juego as fdj
 import random
 import time
 
 
-def disparos_usu(tablero1, tablero2):
+def disparos_usu(tablero1, tablero2, tablero3, barcos):
     while True:
-        coord_disp = disp.recibir_disparos(tablero1)
+        coord_disp = disp.recibir_disparos()
         
         # Si las coordenadas no son válidas, las volvemos a pedir
         if not disp.comprobar_coords(tablero1, coord_disp):
@@ -16,38 +17,59 @@ def disparos_usu(tablero1, tablero2):
             continue
             
         print("Disparo realizado.\n")
-        time.sleep(1)        
+        time.sleep(2)        
+        
         
         # Si el objetivo no es un barco, cambio de turno
-        if not disp.comprobar_objetivo(coord_disp,tablero1):
+        if not disp.comprobar_objetivo2(coord_disp, tablero1, tablero2):
             print('Cambio turno')
             break
+        
+        tb.mostrar_tableros2(tablero2, tablero3)
+        
+        # Comprobar si algún barco está hundido
+        for barco in barcos:
+            if bar.barco_hundido(tablero1, barco):
+                return True
+            
 
 
 
-def disparos_PC(tablero):
+def disparos_PC(tablero1, tablero2, barcos):
     while True:
-        coord_disp = disp.recibir_disparos(tablero, maquina = True)
+        coord_disp = disp.recibir_disparos(maquina = True)
         
         # Si las coordenadas no son válidas, las volvemos a pedir
-        if not disp.comprobar_coords(tablero, coord_disp):
+        if not disp.comprobar_coords(tablero2, coord_disp):
             print("Coordenadas inválidas. Inténtalo de nuevo.\n")
             continue
             
         print("Disparo realizado.\n")
-        time.sleep(1)        
+        time.sleep(2)        
         
         # Si el objetivo no es un barco, cambio de turno
-        if not disp.comprobar_objetivo(coord_disp,tablero):
+        if not disp.comprobar_objetivo(coord_disp, tablero2):
             print('Cambio turno')
+            input()
             break
+    
+        input()
+        
+        # Buscamos cuál es el barco impactado
+        for i, barc in enumerate(barcos):
+            if coord_disp in barc["coords"]:
+                barco = barc[i]
+
+        if bar.barco_hundido(tablero1, barco):
+            return True
+        
 
 
 
 
 
 
-def recibir_disparos(tablero:tuple[int, int], maquina = False):
+def recibir_disparos(maquina = False):
     '''
     Recibir coordenadas del disparo del usuario
     '''
@@ -62,22 +84,50 @@ def recibir_disparos(tablero:tuple[int, int], maquina = False):
     
     
 
-def comprobar_objetivo(tablero:tuple[int, int],coords:tuple[int, int]):
+def comprobar_objetivo(coords:tuple[int, int], tablero:tuple[int, int]):
     '''
-    Comprobar si el disparo impacta en un barco o cae al agua
+    Comprobar si el disparo de la máquina impacta en un barco del usuario o cae al agua
     '''
+    
     
     if tb.es_agua(tablero, coords[0], coords[1]):
         tb.pintar_casilla(tablero, coords, 'DISP_AGUA')
-        tb.mostrar_tablero(tablero)
+        # tb.mostrar_tableros2(tablero, tablero)
         print("Agua!")
         time.sleep(1)
         
         return False # Disparo al agua
-    else:
-        
+    
+    else:    
         tb.pintar_casilla(tablero, coords, 'TOCADO')
-        tb.mostrar_tablero(tablero)
+        # tb.mostrar_tableros2(tablero, tablero)
+        print("Tocado!")
+        # Comprobar si el barco se ha hundido
+        # if bar.barco_hundido(tablero, coords):
+        #     print("Barco hundido!")
+        #     tb.pintar_casilla(tablero, coords, 'HUNDIDO')
+        
+        return True # Impacto en un barco
+
+
+def comprobar_objetivo2(coords:tuple[int, int], tablero1:tuple[int, int], tablero2:tuple[int, int]):
+    '''
+    Comprobar si el disparo del usuario impacta en un barco enemigo o cae al agua
+    '''
+    
+    
+    if tb.es_agua(tablero1, coords[0], coords[1]):
+        tb.pintar_casilla(tablero1, coords, 'DISP_AGUA')
+        tb.pintar_casilla(tablero2, coords, 'DISP_AGUA')
+        tb.mostrar_tablero(tablero2)
+        print("Agua!")
+        time.sleep(1)
+        
+        return False # Disparo al agua
+    
+    else:    
+        tb.pintar_casilla(tablero2, coords, 'TOCADO')
+        tb.mostrar_tablero(tablero2)
         print("Tocado!")
         # Comprobar si el barco se ha hundido
         # if bar.barco_hundido(tablero, coords):
@@ -101,7 +151,7 @@ def comprobar_coords(tablero:tuple[int, int], casilla:tuple[int, int]):
     
     # Casilla previamente disparada
     if tb.ya_disparado(tablero, casilla[0], casilla[1]):
-        tb.mostrar_tablero(tablero)
+        # tb.mostrar_tablero(tablero)
         print('Ya has disparado en esa casilla')
         return False
     

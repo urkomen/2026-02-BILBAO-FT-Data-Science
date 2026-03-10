@@ -25,18 +25,13 @@ def inicio_hundir(n = 10):
     tablero_PC = tb.crear_tablero(n)
     tablero_PCoculto = tb.crear_tablero(n)
 
-    print('TABLERO DE LA MÁQUINA')
-    print('-'*30)
-    tb.mostrar_tablero(tablero_usu)
-    print('-'*30)
-    print('TABLERO DEL USUARIO')
-    tb.mostrar_tablero(tablero_PC)
+    tb.mostrar_tableros2(tablero_usu, tablero_PC)
     
     return tablero_usu, tablero_PC, tablero_PCoculto
 
 
 
-def configuracion_hundir(tablero_usu:tuple[int, int], tablero_PC:tuple[int, int], tablero_PCoculto:tuple[int, int]):
+def configuracion_hundir(tablero_usu:tuple[int, int], tablero_PC:tuple[int, int]):
     '''
     CONFIGURACIÓN
         - Se colocan los barcos del usuario (modo manual/aleatorio)
@@ -46,25 +41,33 @@ def configuracion_hundir(tablero_usu:tuple[int, int], tablero_PC:tuple[int, int]
           1 barco de 4 casillas
     '''
     
+    tb.limpiar()
+    print('Comienza la partida')
+    time.sleep(1)
+    tb.limpiar()
+    print('Preparando tableros...')
+    time.sleep(1)
+    
     # Usuario coloca sus barcos
     manual_aleatorio = input('Colocar barcos de manera (1 - manual o 2 - aleatoria): ')
-    barcos_usu = bar.lista_barcos
+    barcos = bar.lista_barcos
     if manual_aleatorio == '1':
-        barcos = bar.colocar_barcos(tablero_usu, barcos_usu,True)
+        barcos_usu = bar.colocar_barcos(tablero_usu, barcos,True)
     else:
-        barcos = bar.colocar_barcos(tablero_usu, barcos_usu, False)
+        barcos_usu = bar.colocar_barcos(tablero_usu, barcos, False)
+    
+    # Se colocan barcos de la máquina
+    barcos_PC = bar.colocar_barcos(tablero_PC, barcos_usu, False)
+    
+    time.sleep(1.5)
     
     
-    
-    
-    print(barcos)
-    tb.mostrar_tablero(tablero_usu)
-    input()
-
+    # tb.mostrar_tableros2(tablero_usu, tablero_PC)
+    return barcos_usu, barcos_PC
 
 
 def quien_empieza():
-    empieza = input('Quién comienza el primer turno? (Yo/PC)').upper()
+    empieza = input('Quién comienza el primer turno? (YO/PC)').upper()
     
     if empieza == 'YO':
         return 0
@@ -73,7 +76,7 @@ def quien_empieza():
     
     
 
-def disparos_hundir(tablero_usu:tuple[int, int], tablero_PC:tuple[int, int], tablero_PCoculto:tuple[int, int], turno:int):
+def turnos_hundir(tablero_usu:tuple[int, int], tablero_PC:tuple[int, int], tablero_PCoculto:tuple[int, int], barcos_usu:list, barcos_PC:list, turno:int):
     '''
     DISPAROS
         - Recibir coordenadas
@@ -81,15 +84,26 @@ def disparos_hundir(tablero_usu:tuple[int, int], tablero_PC:tuple[int, int], tab
         - Marcar casilla (tocado/agua)
     '''
     
-    turno = 1
-    if turno%2 == 0: # Turno usuario
-        disp.disparos_usu(tablero_PC, tablero_PCoculto)
-    else: # Turno PC
-        print('Turno PC')
-        disp.disparos_PC(tablero_usu)
+    tb.mostrar_tableros2(tablero_PCoculto, tablero_usu)
+    print('Todo listo. Que comience la batalla!')
+    time.sleep(0.7)
     
-    turno += 1 # Siguiente turno
-    return turno
+    fin = False
+    # turno = 1
+    
+    while turno < 20:
+        if turno%2 == 0: # Turno usuario
+            tb.mostrar_tableros2(tablero_PCoculto, tablero_usu)
+            fin = disp.disparos_usu(tablero_PC, tablero_PCoculto, tablero_usu, barcos_PC)
+        else: # Turno PC
+            print('Turno PC')
+            fin = disp.disparos_PC(tablero_PCoculto, tablero_usu, barcos_usu)
+
+        tb.mostrar_tableros2(tablero_PCoculto, tablero_usu)
+        print('Turno finalizado.')
+        
+        turno += 1 # Siguiente turno
+        
     
     
 def barcos_hundidos():

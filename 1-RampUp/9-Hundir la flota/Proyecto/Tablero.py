@@ -23,6 +23,36 @@ def crear_tablero(n=10):
 
 
 def mostrar_tablero(tablero:tuple[int, int]):
+    limpiar()
+    print('TABLERO DE USUARIO')
+    print('-'*30)
+    dibujar_tablero(tablero)
+    
+    
+def mostrar_tableros2(tablero1:tuple[int, int], tablero2:tuple[int, int]):
+    limpiar()
+    print('TABLERO DE LA MÁQUINA')
+    print('-'*30)
+    dibujar_tablero(tablero1)
+    print('-'*30)
+    print('TABLERO DEL USUARIO')
+    dibujar_tablero(tablero2)
+    
+#URKO - Borrar tras pruebas
+def mostrar_tableros3(tablero1:tuple[int, int], tablero2:tuple[int, int], tablero3:tuple[int, int]):
+    limpiar()
+    print('TABLERO DE LA MÁQUINA')
+    print('-'*30)
+    dibujar_tablero(tablero1)
+    print('-'*30)
+    print('TABLERO DEL USUARIO')
+    dibujar_tablero(tablero2)
+    print('-'*30)
+    print('TABLERO OCULTO MÁQUINA')
+    dibujar_tablero(tablero3)
+    
+    
+def dibujar_tablero(tablero:tuple[int, int]):
     '''
     Muestra el tablero en pantalla
     '''
@@ -70,7 +100,7 @@ def pintar_casilla(tablero:tuple[int, int], casilla:tuple, state:str):
             tablero[n,m] = BARCO3
         case 'BARCO4':
             tablero[n,m] = BARCO4
-        case 'AGUA':
+        case 'DISP_AGUA':
             tablero[n,m] = DISP_AGUA
         case 'TOCADO':
             tablero[n,m] = TOCADO
