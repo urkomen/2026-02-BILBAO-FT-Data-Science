@@ -47,9 +47,12 @@ def configuracion_hundir(tablero_usu:tuple[int, int], tablero_PC:tuple[int, int]
     tb.limpiar()
     print('Preparando tableros...')
     time.sleep(1)
+    tb.limpiar()
+    print('Colocando barcos...')
+    time.sleep(1)
     
     # Usuario coloca sus barcos
-    manual_aleatorio = input('Colocar barcos de manera (1 - manual o 2 - aleatoria): ')
+    manual_aleatorio = 2 #input('Colocar barcos de manera (1 - manual o 2 - aleatoria): ')
     barcos = bar.lista_barcos
     if manual_aleatorio == '1':
         barcos_usu = bar.colocar_barcos(tablero_usu, barcos,True)
@@ -70,9 +73,9 @@ def quien_empieza():
     empieza = input('Quién comienza el primer turno? (YO/PC)').upper()
     
     if empieza == 'YO':
-        return 0
-    else:
         return 1
+    else:
+        return 0
     
     
 
@@ -86,19 +89,20 @@ def turnos_hundir(tablero_usu:tuple[int, int], tablero_PC:tuple[int, int], table
     
     tb.mostrar_tableros2(tablero_PCoculto, tablero_usu)
     print('Todo listo. Que comience la batalla!')
-    time.sleep(0.7)
-    
+    time.sleep(1)
+        
     fin = False
     # turno = 1
     
-    while fin:
+    while not fin:
         turno += 1 # Siguiente turno
         if turno%2 == 0: # Turnos pares son del usuario
             tb.mostrar_tableros2(tablero_PCoculto, tablero_usu)
-            fin = disp.disparos_usu(tablero_PC, tablero_PCoculto, tablero_usu, barcos_PC)
+            fin, barcos_PC = disp.disparos_usu(tablero_PC, tablero_PCoculto, tablero_usu, barcos_PC)
         else: # Turnos impares son de la máquina
             print('Turno PC')
-            fin = disp.disparos_PC(tablero_PCoculto, tablero_usu, barcos_usu)
+            fin, barcos_usu = disp.disparos_PC(tablero_PCoculto, tablero_usu, barcos_usu)
+        print(fin)
 
         tb.mostrar_tableros2(tablero_PCoculto, tablero_usu)
         print('Turno finalizado.')
