@@ -2,14 +2,15 @@ import numpy as np
 import os
 
 # Constantes
-AGUA = '🟦'
-BARCO1 = '⬜'
-BARCO2 = '🟩'
-BARCO3 = '🟫'
-BARCO4 = '🟪'
-DISP_AGUA = '⬛'
+AGUA = '⬛'
+BARCO1 = '⛵'
+BARCO2 = '🚤'
+BARCO3 = '🛥️'
+BARCO4 = '⛴️'
+DISP_AGUA = '💦'
 TOCADO   = '💥'
-HUNDIDO  = '☠️'
+HUNDIDO  = ' ☠️'
+
 
 coordenadas = ['A','B','C','D','E','F','G','H','I','J']
 
@@ -31,12 +32,15 @@ def mostrar_tablero(tablero:tuple[int, int]):
     
 def mostrar_tableros2(tablero1:tuple[int, int], tablero2:tuple[int, int]):
     limpiar()
-    print('TABLERO DE LA MÁQUINA')
-    print('-'*30)
+    print('     TABLERO DE LA MÁQUINA')
+    print('-'*31)
     dibujar_tablero(tablero1)
-    print('-'*30)
-    print('TABLERO DEL USUARIO')
+    print('-'*31)
+    print('      TABLERO DEL USUARIO')
+    print('-'*31)
     dibujar_tablero(tablero2)
+    print('-'*31)
+    
     
 #URKO - Borrar tras pruebas
 def mostrar_tableros3(tablero1:tuple[int, int], tablero2:tuple[int, int], tablero3:tuple[int, int]):

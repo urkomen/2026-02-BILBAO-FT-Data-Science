@@ -18,9 +18,9 @@ def main():
     # Se escoge turno de inicio
     turno = fdj.quien_empieza()
     
-    fdj.turnos_hundir(tablero_usu, tablero_PC, tablero_PCoculto, barcos_usu, barcos_PC, turno)
+    ganador = fdj.turnos_hundir(tablero_usu, tablero_PC, tablero_PCoculto, barcos_usu, barcos_PC, turno)
     
-    
+    fdj.fin_hundir(ganador)
     
     
 

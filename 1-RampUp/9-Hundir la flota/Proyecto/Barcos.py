@@ -36,8 +36,8 @@ def colocar_barcos(tablero:tuple[int, int], barcos:list, manual:bool):
         True --> los barcos se colocan de forma aleatoria
     '''
     
-    # tipos_barcos = [(1, 4), (2, 3), (3, 2), (4, 1)]
-    tipos_barcos = [(4, 1)]
+    tipos_barcos = [(1, 4), (2, 3), (3, 2), (4, 1)]
+    # tipos_barcos = [(4, 1)]
     ind = 0
     
     if manual:
@@ -152,13 +152,13 @@ def barco_valido(tablero:tuple[int, int], tipo: int, casillas:list[tuple[int, in
 
 
 
-def barco_hundido(tablero:tuple[int, int], barco, ind):
+def barco_hundido(tablero:tuple[int, int], barcos, ind):
     '''
     barco = {'tipo': n, 'coords': ['A1','A2',...]}
     Devuelve True si se ha impactado en todas las casillas del barco
     '''
          
-    for coord in barco[ind]['coords']:
+    for coord in barcos[ind]['coords']:
         fil = coord[0]
         col = coord[1]
         print(coord)

@@ -98,15 +98,16 @@ def turnos_hundir(tablero_usu:tuple[int, int], tablero_PC:tuple[int, int], table
         turno += 1 # Siguiente turno
         if turno%2 == 0: # Turnos pares son del usuario
             tb.mostrar_tableros2(tablero_PCoculto, tablero_usu)
+            print('TURNO DE USUARIO')
             fin, barcos_PC = disp.disparos_usu(tablero_PC, tablero_PCoculto, tablero_usu, barcos_PC)
         else: # Turnos impares son de la máquina
+            tb.mostrar_tableros2(tablero_PCoculto, tablero_usu)
             print('Turno PC')
             fin, barcos_usu = disp.disparos_PC(tablero_PCoculto, tablero_usu, barcos_usu)
         print(fin)
 
         tb.mostrar_tableros2(tablero_PCoculto, tablero_usu)
-        print('Turno finalizado.')
-    
+        print('Turno finalizado.')        
     
     if turno%2 == 0: 
         # El juego ha finalizado en el turno del usuario
@@ -116,9 +117,6 @@ def turnos_hundir(tablero_usu:tuple[int, int], tablero_PC:tuple[int, int], table
         # El juego ha finalizado en el turno de la máquina
         # Gana máquina
         return 'MAQUINA'
-        
-        
-        
     
     
 def barcos_hundidos():
@@ -132,5 +130,12 @@ def barcos_hundidos():
     pass
 
 
-def fin_hundir():
-    pass
+def fin_hundir(gana):
+    
+    if gana == 'USUARIO':
+        print('VICTORIA')
+    else:
+        # Gana máquina
+        print('GAME OVER')
+        
+

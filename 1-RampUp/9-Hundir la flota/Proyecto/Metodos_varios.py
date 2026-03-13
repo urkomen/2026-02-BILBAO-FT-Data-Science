@@ -7,12 +7,12 @@ def coords2index(coord: str):
     1 -> 0, 2 -> 1, ..., 10 -> 9
     """
     coord = coord.strip().upper()
-    fila = coord[0] # 'A'
-    col = coord[1] # '5' o '10'
+    fil = coord[0] # 'A'
+    col = coord[1:] # '5' o '10'
     
     for ind, valor in enumerate(tb.coordenadas):
-        if valor == fila:
-            fila_idx = ind
+        if valor == fil:
+            fil_idx = ind
     col_idx = int(col) - 1
 
-    return (fila_idx, col_idx)
+    return (fil_idx, col_idx)

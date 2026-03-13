@@ -32,18 +32,20 @@ def disparos_usu(tablero1, tablero2, tablero3, barcos_PC):
         for i, barco in enumerate(barcos_PC):
             if coord_disp in barco['coords']:
                 ind = i
-        #         barco['coords'] = barc['coords']
-        # print(barco)
-        print(ind)
 
         # Se ha hundido el barco?
         if bar.barco_hundido(tablero1, barcos_PC, ind):
             for coord in barcos_PC[ind]['coords']:
+                # Pintamos en los dos tableros del PC
                 tb.pintar_casilla(tablero1, coord, 'HUNDIDO')
+                tb.pintar_casilla(tablero2, coord, 'HUNDIDO')
             barcos_PC[ind]['hundido'] = True
+            tb.mostrar_tableros2(tablero2, tablero3)
             print("Barco hundido!")
+            print("Aquí1")
             time.sleep(1)
-            
+        
+        
         # Quedan barcos por hundir?
         if not bar.quedan_barcos(barcos_PC):
             return True, barcos_PC # Si no hay barcos por hundir --> fin de juego
@@ -79,20 +81,22 @@ def disparos_PC(tablero1, tablero2, barcos_usu):
             if coord_disp in barco['coords']:
                 ind = i
                 # barco['coords'] = barc['coords']
-        # print(barco)
         print(ind)
+        print(barcos_usu)
 
         # Se ha hundido el barco?
-        if bar.barco_hundido(tablero1, barcos_usu, ind):
+        if bar.barco_hundido(tablero2, barcos_usu, ind):
             for coord in barcos_usu[ind]['coords']:
-                tb.pintar_casilla(tablero1, coord, 'HUNDIDO')
+                tb.pintar_casilla(tablero2, coord, 'HUNDIDO')
             barcos_usu[ind]['hundido'] = True
+            tb.mostrar_tableros2(tablero1, tablero2)
             print("Barco hundido!")
             time.sleep(1)
             
-            # Quedan barcos por hundir?
-            if not bar.quedan_barcos(barcos_usu):
-                return True, barcos_usu  # Si no hay barcos por hundir --> fin de juego
+            
+        # Quedan barcos por hundir?
+        if not bar.quedan_barcos(barcos_usu):
+            return True, barcos_usu  # Si no hay barcos por hundir --> fin de juego
     
     time.sleep(1)        
     return False, barcos_usu
@@ -152,20 +156,16 @@ def comprobar_objetivo2(coords:tuple[int, int], tablero1:tuple[int, int], tabler
     if tb.es_agua(tablero1, coords[0], coords[1]):
         tb.pintar_casilla(tablero1, coords, 'DISP_AGUA')
         tb.pintar_casilla(tablero2, coords, 'DISP_AGUA')
-        # tb.mostrar_tablero(tablero2)
         print("Agua!")
         time.sleep(1)
         
         return False # Disparo al agua
     
     else:    
+        tb.pintar_casilla(tablero1, coords, 'TOCADO')
         tb.pintar_casilla(tablero2, coords, 'TOCADO')
         # tb.mostrar_tablero(tablero2)
         print("Tocado!")
-        # Comprobar si el barco se ha hundido
-        # if bar.barco_hundido(tablero, coords):
-        #     print("Barco hundido!")
-        #     tb.pintar_casilla(tablero, coords, 'HUNDIDO')
         
         return True # Impacto en un barco
 
