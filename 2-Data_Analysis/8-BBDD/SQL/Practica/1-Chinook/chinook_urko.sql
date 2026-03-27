@@ -19,9 +19,10 @@ select *
     where art.name = 'AC/DC';
 
 
---4.Obtén los campos de los clientes que no sean de USA: Nombrecompleto, ID, País
+--4.Obtén los campos de los clientes que no sean de USA: Nombre completo, ID, País
 select concat(firstname, ' ', lastname) AS [Nombre Completo], customerid as ID, country as País
-    from customers;
+    from customers
+    where country <> 'USA';
 
 
 --5. Obtén los empleados que son agentes de ventas: Nombrecompleto, Dirección (Ciudad, Estado, País) y email
@@ -78,18 +79,16 @@ select inv.billingcountry as País, sum(inv_it.quantity) as [Número de facturas
 
 
 --12. Cuántas facturas ha habido en 2009 y 2011
-select substring(inv.invoicedate, 1, 4) as Año, sum(inv_it.quantity) as [Número de facturas]
-    from invoices as inv
-        inner join invoice_items as inv_it on inv.invoiceid = inv_it.invoiceid
+select strftime('%Y', invoicedate) as Año, count(invoiceid) as [Número de facturas]
+    from invoices
     where Año in ('2009','2011')
     group by Año;
 
 
 
 --13. Cuántas facturas ha habido entre 2009 y 2011
-select substring(inv.invoicedate, 1, 4) as Año, sum(inv_it.quantity) as [Número de facturas]
-    from invoices as inv
-        inner join invoice_items as inv_it on inv.invoiceid = inv_it.invoiceid
+select strftime('%Y', invoicedate) as Año, count(invoiceid) as [Número de facturas]
+    from invoices
     where Año between '2009' and'2011'
     group by Año;
 
@@ -130,7 +129,7 @@ select distinct(inv.invoiceid) as [Id factura], emp.firstname || ' ' || emp.last
 --3. Obtén el nombre del cliente, el país, el nombre del agente y el total
 select concat(cust.firstname,' ',cust.lastname) as [Nombre de cliente], cust.country as País,
         concat(emp.firstname,' ',emp.lastname) as [Nombre de empleado],
-        sum(inv.total)
+        sum(inv.total) as Total
     from customers as cust
         inner join employees as emp on emp.employeeid = cust.supportrepid
         inner join invoices as inv on inv.customerid = cust.customerid
@@ -186,6 +185,7 @@ select concat(emp.firstname,' ',emp.lastname) as [Nombre de empleado],
         inner join customers as cust on cust.supportrepid = emp.employeeid
         inner join invoices as inv on inv.customerid = cust.customerid
         inner join invoice_items as inv_it on inv_it.invoiceid = inv.invoiceid
+    where strftime('%Y', inv.invoicedate) = '2009'
     group by emp.employeeid
     order by Cantidad desc
     --order by [Total (€)] desc; -- Valen las dos opciones
