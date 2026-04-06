@@ -13,7 +13,8 @@ select date as Fecha, type as Tipo, city as Ciudad, description as Detalles
       and city = 'SQL City';
       
 
-
+select avg(annual_income)
+    from income;
 
 
 select * from drivers_license;
@@ -23,4 +24,11 @@ select * from get_fit_now_member;
 select * from income;
 select * from interview;
 select * from get_fit_now_member;
-select * from person;
+select * from person
+where name in ('Joon Park', 'Cathy He');
+
+
+INSERT INTO solution VALUES (1, 'Miranda Priestly');
+        
+        SELECT value FROM solution;
+select * from solution
