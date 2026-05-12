@@ -236,6 +236,9 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Files and directories
 3-Machine_Learning/6-OpenCV/archivos/Resources/Exercise/rostro.mp4
 3-Machine_Learning/6-OpenCV/archivos/Resources/Exercise/rostro2.mp4
 3-Machine_Learning/6-OpenCV/archivos/Resources/Exercise/rostro3.mp4
+3-Machine_Learning/7-NLP/Embeddings/embeddings_data/
