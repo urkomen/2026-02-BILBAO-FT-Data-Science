@@ -77,8 +77,8 @@ def api_all():
 ```
 
 4. Corre la aplicación y accede a [http://127.0.0.1:5000/api/v1/resources/books/all](http://127.0.0.1:5000/api/v1/resources/books/all)
-Verás que la API devuelve un JSON, que es el formato de datos más común para comunicaciones web. Este json lo creamos a partir de la lista de diccionarios, gracias a la función “jsonify()”, de flask.
-De momento nuestro programa tiene un punto de acceso y devuelve todos los libros de nuestra “base de datos”.
+   Verás que la API devuelve un JSON, que es el formato de datos más común para comunicaciones web. Este json lo creamos a partir de la lista de diccionarios, gracias a la función “jsonify()”, de flask.
+   De momento nuestro programa tiene un punto de acceso y devuelve todos los libros de nuestra “base de datos”.
 
 ## 3. API para búsqueda de datos
 
@@ -115,7 +115,7 @@ En este punto tenemos creado un nuevo enrutado:
 2. Otra manera de acceder a los datos es con el argumento en la propia URL. Como en el siguiente ejemplo donde vamos a buscar por título:
 
 ```python
-@app.route('/api/v1/resources/book/[string:title](string:title)', methods=['GET'])
+@app.route('/api/v1/resources/book/<string:title>', methods=['GET'])
 def get_by_title(title):
     for book in books:
         if book['title'] == title:
@@ -132,7 +132,7 @@ def get_by_id():
     for book in books:
         if book['id'] == id:
             return jsonify(book)
-        return jsonify({'message': "Book not found"})
+    return jsonify({'message': "Book not found"})
 ```
 
 4. Si quisiésemos subir a la BD algún libro, realizaremos un POST:
