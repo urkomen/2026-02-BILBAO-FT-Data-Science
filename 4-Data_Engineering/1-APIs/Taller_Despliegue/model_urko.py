@@ -41,7 +41,7 @@ pickle.dump(model, open('ad_model.pkl', 'wb'))
 
 
 app = flask.Flask(__name__)
-app.config["DEBUG"] = True
+app.config["DEBUG"] = True # Poner False cuando terminemos las pruebas, modo producción
 
 @app.route('/', methods=['GET'])
 def home():
